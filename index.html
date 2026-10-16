@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="FOC" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>FOC</title>
+  <style>
+    html, body { margin: 0; background: #111; color: #eee; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    header { position: sticky; top: 0; background: #111; padding: calc(12px + env(safe-area-inset-top)) 16px 8px; }
+    h1 { font-size: 22px; margin: 0; font-weight: 650; }
+    #st { margin-top: 6px; min-height: 2.6em; font-size: 15px; line-height: 1.35; color: #b7ebc6; word-break: break-all; }
+    #hint { margin: 4px 0 0; font-size: 13px; color: #aaa; }
+    main { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 8px 16px calc(16px + env(safe-area-inset-bottom)); }
+    button { appearance: none; border: 0; border-radius: 14px; background: #2c2c2e; color: #fff; font-size: 17px; font-weight: 600; padding: 18px 8px; touch-action: manipulation; }
+    button:active { background: #30a46c; }
+    button.wide { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FOC</h1>
+    <div id="st">点按钮即可，停在这一页。</div>
+    <p id="hint" hidden>点底部分享，选「添加到主屏幕」。之后从桌面图标进入。</p>
+  </header>
+  <main id="pad"></main>
+  <script>
+    var UID = "0fbccb9795484b8aa7a811a65f80f95d";
+    var TOPIC = "foc001";
+    var CMDS = [
+      ["帮助", "help", 1],
+      ["读状态", "stat", 0],
+      ["棘轮", "r", 0],
+      ["停止保持", "stop", 0],
+      ["顺时针 60°", "cw", 0],
+      ["逆时针 60°", "ccw", 0],
+      ["恒速 +3", "spd 3", 0],
+      ["恒速 -3", "spd -3", 0],
+      ["恒力 +1100", "force 1100", 0],
+      ["恒力 -1100", "force -1100", 0],
+      ["位置保持", "pos", 0],
+      ["位置 90°", "pos 90", 0],
+      ["方向 CW", "dir cw", 0],
+      ["方向 CCW", "dir ccw", 0]
+    ];
+    var st = document.getElementById("st");
+    var pad = document.getElementById("pad");
+    var hint = document.getElementById("hint");
+    if (!window.navigator.standalone) hint.hidden = false;
+    CMDS.forEach(function (item) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = item[0];
+      if (item[2]) b.className = "wide";
+      b.addEventListener("click", function () { send(item[1]); });
+      pad.appendChild(b);
+    });
+    function send(cmd) {
+      st.textContent = "发送 " + cmd + " …";
+      var url = "https://apis.bemfa.com/va/sendMessage?uid=" + UID
+        + "&topic=" + encodeURIComponent(TOPIC)
+        + "&type=1&msg=" + encodeURIComponent(cmd);
+      fetch(url).then(function (r) { return r.text(); }).then(function (t) {
+        st.textContent = cmd + "  " + t;
+      }).catch(function () {
+        st.textContent = cmd + "  发送失败";
+      });
+    }
+  </script>
+</body>
+</html>
