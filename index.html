@@ -19,7 +19,8 @@
     main { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 8px 16px calc(16px + env(safe-area-inset-bottom)); }
     button { appearance: none; border: 0; border-radius: 14px; background: #2c2c2e; color: #fff; font-size: 17px; font-weight: 600; padding: 18px 8px; touch-action: manipulation; }
     button:active { background: #30a46c; }
-    button.wide { grid-column: 1 / -1; }
+    button.wide, h2 { grid-column: 1 / -1; }
+    h2 { margin: 14px 0 0; font-size: 15px; color: #8e8e93; font-weight: 650; }
   </style>
 </head>
 <body>
@@ -33,6 +34,7 @@
     var UID = "0fbccb9795484b8aa7a811a65f80f95d";
     var TOPIC = "foc001";
     var CMDS = [
+      ["电机", "", 2],
       ["帮助", "help", 1],
       ["读状态", "stat", 0],
       ["棘轮", "r", 0],
@@ -46,13 +48,38 @@
       ["位置保持", "pos", 0],
       ["位置 90°", "pos 90", 0],
       ["方向 CW", "dir cw", 0],
-      ["方向 CCW", "dir ccw", 0]
+      ["方向 CCW", "dir ccw", 0],
+      ["空调", "", 2],
+      ["空调开", "ac on", 0],
+      ["空调关", "ac off", 0],
+      ["温度 +", "ac tup", 0],
+      ["温度 -", "ac tdn", 0],
+      ["制冷", "ac cool", 0],
+      ["制热", "ac heat", 0],
+      ["除湿", "ac dry", 0],
+      ["送风", "ac fan", 0],
+      ["模式自动", "ac auto", 0],
+      ["风量自动", "ac fauto", 0],
+      ["风低", "ac flow", 0],
+      ["风中", "ac fmed", 0],
+      ["风高", "ac fhi", 0],
+      ["上下扫风", "ac sv", 0],
+      ["左右扫风", "ac sh", 0],
+      ["强力", "ac turbo", 0],
+      ["静音", "ac quiet", 0],
+      ["灯光", "ac light", 0]
     ];
     var st = document.getElementById("st");
     var pad = document.getElementById("pad");
     var hint = document.getElementById("hint");
     if (!window.navigator.standalone) hint.hidden = false;
     CMDS.forEach(function (item) {
+      if (item[2] === 2) {
+        var h = document.createElement("h2");
+        h.textContent = item[0];
+        pad.appendChild(h);
+        return;
+      }
       var b = document.createElement("button");
       b.type = "button";
       b.textContent = item[0];
