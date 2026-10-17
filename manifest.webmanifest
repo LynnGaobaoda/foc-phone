@@ -1,7 +1,7 @@
 {
   "name": "空调",
   "short_name": "空调",
-  "start_url": "./",
+  "start_url": "./?v=3",
   "display": "standalone",
   "background_color": "#F2F2F7",
   "theme_color": "#F2F2F7"
