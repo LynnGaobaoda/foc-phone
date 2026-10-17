@@ -1,8 +1,8 @@
 {
-  "name": "FOC",
-  "short_name": "FOC",
+  "name": "空调",
+  "short_name": "空调",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#111111",
-  "theme_color": "#111111"
+  "background_color": "#F2F2F7",
+  "theme_color": "#F2F2F7"
 }
