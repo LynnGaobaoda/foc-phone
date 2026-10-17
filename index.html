@@ -15,9 +15,12 @@
   <style>
     html, body { margin: 0; background: #F2F2F7; color: #1C1C1E; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif; }
     header { padding: calc(8px + env(safe-area-inset-top)) 20px 0; }
-    .title-row { display: flex; align-items: center; justify-content: space-between; }
     h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: 0.2px; }
-    #reload { border: 0; background: transparent; color: #007AFF; font-size: 17px; padding: 8px 0; }
+    #reload {
+      display: block; width: 100%; border: 0; border-radius: 12px;
+      background: #fff; color: #007AFF; font-size: 17px; font-weight: 600;
+      padding: 14px 0; margin: 12px 0 4px;
+    }
     #reload:active { opacity: 0.55; }
     #st { margin: 4px 0 0; min-height: 1.2em; font-size: 13px; color: #8E8E93; }
     #hint { margin: 6px 0 0; font-size: 13px; color: #8E8E93; }
@@ -48,11 +51,9 @@
 </head>
 <body>
   <header>
-    <div class="title-row">
-      <h1>空调</h1>
-      <button type="button" id="reload">刷新</button>
-    </div>
+    <h1>空调</h1>
     <div id="st">已连接</div>
+    <button type="button" id="reload">刷新页面</button>
     <p id="hint" hidden>点底部分享，选「添加到主屏幕」。</p>
   </header>
   <main>
@@ -163,7 +164,8 @@
       document.getElementById("motor").appendChild(b);
     });
     document.getElementById("reload").addEventListener("click", function () {
-      location.replace(location.pathname + "?v=" + Date.now());
+      var base = location.href.split("?")[0].split("#")[0];
+      location.replace(base + "?v=" + Date.now());
     });
     paint();
   </script>
